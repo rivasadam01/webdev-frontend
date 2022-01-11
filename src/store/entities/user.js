@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 import * as apiActions from '../actions/api';
 
 //temporary variables..should be in environment?
@@ -40,3 +41,13 @@ export const loginUser=(user)=>dispatch=>
 
 
 //selectors
+
+export const getUser=createSelector(
+    state=>state.entities.user,
+    user=>user.user
+);
+
+export const getUserToken=createSelector(
+    state=>state.entities.user,
+    user=>user.token
+);
