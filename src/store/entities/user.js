@@ -1,14 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
+import * as apiActions from '../actions/api';
+
+//temporary variables..should be in environment?
+let url='/auth';
 
 const slice=createSlice({
     name:'User',
     initialState:{
         user:{},
-        token:null
+        token:null,
+        isLoggedIn:false,
     },
     reducers:{
-
+        userLoginRequested:(user,action)=>{},
+        userLoggedIn:(user,action)=>{
+            user.user=action.payload.user;
+            user.token=action.payload.token;
+            user.isLoggedIn=true;
+        },
+        userLoginFailed:(user,action)=>{}
     }
 });
 
 export default slice.reducer;
+
+//user actions
+const {userLoginRequested,userLoggedIn,userLoginFailed}=slice.actions;
+
+//commands
+export const loginUser=(user)=>dispatch=>
+    dispatch(apiActions.apiCallBegan({
+    url:`${url}/login`,
+    method:'post',
+    data:user,
+    onStart:userLoginRequested.type,
+    onSuccess:userLoggedIn.type,
+    onError:userLoginFailed.type
+}));
+
+
+//selectors
