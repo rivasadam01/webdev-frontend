@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, isLoggedIn } from '../../store/entities/user';
+import { loginUser, isLoggedIn, getUserErrors } from '../../store/entities/user';
 import loginImg from '../../assets/images/login.svg';
 import './login.scss';
 
@@ -9,6 +9,7 @@ const Login=()=>{
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const loggedIn=useSelector(isLoggedIn);
+    const userErrors=useSelector(getUserErrors);
     const [username,setUserName]=useState('');
     const [password,setPassword]=useState('');
 
@@ -63,6 +64,7 @@ const Login=()=>{
                                 />
                         </div>
                         <button type="submit" className='mb-1'>Login</button>
+                        <span id="error-message">{userErrors&&userErrors.message}</span>
                     </form>
                 </div>
            
