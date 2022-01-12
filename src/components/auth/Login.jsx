@@ -1,27 +1,71 @@
+import {useState,useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, isLoggedIn } from '../../store/entities/user';
+import loginImg from '../../assets/images/login.svg';
+import './login.scss';
+
 const Login=()=>{
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
+    const loggedIn=useSelector(isLoggedIn);
+    const [username,setUserName]=useState('');
+    const [password,setPassword]=useState('');
+
+    useEffect(()=>{
+        if(loggedIn)navigate('/');
+    },[loggedIn]);
+
+    const setInputField=({currentTarget:input})=>{
+        switch(input.name){
+            case 'username':
+                setUserName(input.value)
+                break;
+            case 'password':
+                setPassword(input.value)
+                break;
+            default:
+                return
+        }
+    }
+    
+    const handleSubmit=(e)=>{
+        e.preventDefault();
+        dispatch(loginUser({username,password}));
+    }
+
     return <>
-    <h2>Welcome back</h2>
-    <div>
-        <div id='form-card'>
-            <form action="">
-                <div id='form-input'>
-                    <input type="text" 
-                        name="username" 
-                        id="username"
-                        placeholder="Username"
-                        required 
-                        />
+    <div id="login-container" className='m-2'>
+        <div id='login-card'>
+        <h2>Welcome back</h2>
+           
+                <div id='login-body'>
+                    <img src={loginImg} alt="" width="200rem" />
+                    <form onSubmit={handleSubmit}>
+                        <div id='form-input' className='mb-1'>
+                            <input type="text"
+                                name="username"
+                                id="username"
+                                placeholder="Username"
+                                value={username}
+                                onChange={setInputField}
+                                required
+                                />
+                        </div>
+                        <div id='form-input' className='mb-1'>
+                            <input type="password"
+                                name="password"
+                                id="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={setInputField}
+                                required
+                                />
+                        </div>
+                        <button type="submit" className='mb-1'>Login</button>
+                    </form>
                 </div>
-                <div id='form-input'>
-                    <input type="password" 
-                        name="password" 
-                        id="username"
-                        placeholder="Password" 
-                        required
-                        />
-                </div>
-                <button type="submit">Login</button>
-            </form>
+           
         </div>
     </div>
     </>
