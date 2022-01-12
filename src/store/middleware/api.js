@@ -18,7 +18,7 @@ const api=({dispatch})=>next=>async action=>{
     }
     catch(err){
         dispatch(apiActions.apiCallFailed(err.response.data));
-        if(onError)dispatch({type:onError,payload:err.message.response.data});
+        if(onError)dispatch({type:onError,payload:err.response.data});
     }
 }
 
