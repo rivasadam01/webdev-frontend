@@ -6,7 +6,7 @@ import * as apiActions from '../actions/api';
 let url='/auth';
 
 const slice=createSlice({
-    name:'User',
+    name:'user',
     initialState:{
         user:{},
         token:null,
@@ -51,3 +51,8 @@ export const getUserToken=createSelector(
     state=>state.entities.user,
     user=>user.token
 );
+
+export const isLoggedIn=createSelector(
+    state=>state.entities.user.isLoggedIn,
+    isLoggedIn=>isLoggedIn
+)
